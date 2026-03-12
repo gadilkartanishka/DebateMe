@@ -90,6 +90,14 @@ const GLOBAL_CSS = `
 
   input, textarea, button { font-family: 'DM Sans', sans-serif !important; }
   input:focus, textarea:focus { outline: none; }
+
+  [data-slot="tabs-trigger"][data-state="active"] {
+    color: ${C.sage} !important;
+  }
+  [data-slot="tabs-trigger"][data-state="active"]::after {
+    background: ${C.sage} !important;
+    opacity: 1 !important;
+  }
 `;
 
 // ── Atoms ─────────────────────────────────────────────────────────────────────
@@ -392,6 +400,7 @@ function Landing({ onStart }) {
                   border: "1px solid #a86a6a44",
                   marginBottom: 16,
                   borderRadius: 8,
+                  padding: "12px 16px",
                 }}
               >
                 <AlertDescription style={{ color: "#a86a6a", fontSize: 13 }}>
@@ -645,7 +654,7 @@ function Arena({ topic, position, onBack }) {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
-              padding: "3px 12px",
+              padding: "5px 16px",
               borderRadius: 20,
             }}
           >
@@ -930,7 +939,7 @@ function Arena({ topic, position, onBack }) {
         {/* Assist panel — shadcn Tabs */}
         <div
           style={{
-            width: 290,
+            width: "30%",
             flexShrink: 0,
             borderLeft: `1px solid ${C.border}`,
             background: C.surface,
@@ -959,6 +968,7 @@ function Arena({ topic, position, onBack }) {
             }}
           >
             <TabsList
+              variant="line"
               style={{
                 background: "transparent",
                 borderBottom: `1px solid ${C.border}`,
@@ -1106,13 +1116,14 @@ function Arena({ topic, position, onBack }) {
                     fontSize: 13,
                     fontWeight: 300,
                     marginBottom: 14,
-                    height: 38,
+                    height: 42,
+                    padding: "0 14px",
                   }}
                 />
                 <p style={{ color: C.textMut, fontSize: 11, marginBottom: 10 }}>
                   Click to insert:
                 </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {wordResults.map((w) => (
                     <Badge
                       key={w}
@@ -1120,7 +1131,7 @@ function Arena({ topic, position, onBack }) {
                       variant="outline"
                       style={{
                         cursor: "pointer",
-                        padding: "5px 12px",
+                        padding: "13px 16px",
                         borderRadius: 6,
                         border: `1px solid ${C.border}`,
                         color: C.textSec,
