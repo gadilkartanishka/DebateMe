@@ -496,7 +496,7 @@ function Landing({ onStart }) {
       >
         {[
           ["⊕", "Wikipedia context"],
-          ["◈", "Word strengthener"],
+          ["◈", "Argument reframer"],
           ["◎", "Argument scoring"],
         ].map(([icon, label]) => (
           <div
@@ -527,17 +527,8 @@ function Arena({ topic, position, onBack }) {
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [scores, setScores] = useState([]);
-  const [wordSearch, setWordSearch] = useState("");
-  const [wordResults, setWordResults] = useState([
-    "compelling",
-    "persuasive",
-    "cogent",
-    "forceful",
-    "articulate",
-    "lucid",
-    "trenchant",
-    "incisive",
-  ]);
+  const [strengthened, setStrengthened] = useState("");
+  const [strengthening, setStrengthening] = useState(false);
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
 
@@ -970,6 +961,7 @@ function Arena({ topic, position, onBack }) {
             <TabsList
               variant="line"
               style={{
+                width: "100%",
                 background: "transparent",
                 borderBottom: `1px solid ${C.border}`,
                 borderRadius: 0,
@@ -979,7 +971,7 @@ function Arena({ topic, position, onBack }) {
                 justifyContent: "flex-start",
               }}
             >
-              {["wiki", "words", "scores"].map((t) => (
+              {["wiki", "reframe", "scores"].map((t) => (
                 <TabsTrigger
                   key={t}
                   value={t}
@@ -997,8 +989,8 @@ function Arena({ topic, position, onBack }) {
                 >
                   {t === "wiki"
                     ? "Context"
-                    : t === "words"
-                      ? "Words"
+                    : t === "reframe"
+                      ? "Reframe"
                       : "Scores"}
                 </TabsTrigger>
               ))}
@@ -1071,9 +1063,9 @@ function Arena({ topic, position, onBack }) {
               </div>
             </TabsContent>
 
-            {/* Words tab */}
+            {/* Reframe tab */}
             <TabsContent
-              value="words"
+              value="reframe"
               style={{ flex: 1, overflowY: "auto", padding: 18, margin: 0 }}
             >
               <div className="tab-body">
@@ -1101,60 +1093,158 @@ function Arena({ topic, position, onBack }) {
                       textTransform: "uppercase",
                     }}
                   >
-                    Datamuse
+                    Argument Reframer
                   </span>
                 </div>
-                {/* shadcn Input */}
-                <Input
-                  value={wordSearch}
-                  onChange={(e) => setWordSearch(e.target.value)}
-                  placeholder="Search a word…"
-                  style={{
-                    background: C.surfaceHi,
-                    border: `1px solid ${C.border}`,
-                    color: C.textPri,
-                    fontSize: 13,
-                    fontWeight: 300,
-                    marginBottom: 14,
-                    height: 42,
-                    padding: "0 14px",
-                  }}
-                />
-                <p style={{ color: C.textMut, fontSize: 11, marginBottom: 10 }}>
-                  Click to insert:
-                </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {wordResults.map((w) => (
-                    <Badge
-                      key={w}
-                      onClick={() => setInput((p) => (p ? p + " " + w : w))}
-                      variant="outline"
+
+                {!input.trim() && !strengthened ? (
+                  <p
+                    style={{
+                      color: C.textMut,
+                      fontSize: 13,
+                      lineHeight: 1.7,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Start typing your argument below, then come here to reframe
+                    it into a stronger version.
+                  </p>
+                ) : (
+                  <>
+                    {/* Current draft */}
+                    <Card
                       style={{
-                        cursor: "pointer",
-                        padding: "13px 16px",
-                        borderRadius: 6,
+                        background: C.surfaceHi,
                         border: `1px solid ${C.border}`,
-                        color: C.textSec,
-                        fontSize: 12,
-                        fontWeight: 300,
-                        background: "transparent",
-                        transition: "all 0.15s",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.borderColor = C.sageMid;
-                        e.target.style.color = C.sage;
-                        e.target.style.background = C.sageDim;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.borderColor = C.border;
-                        e.target.style.color = C.textSec;
-                        e.target.style.background = "transparent";
+                        borderRadius: 8,
+                        marginBottom: 14,
                       }}
                     >
-                      {w}
-                    </Badge>
-                  ))}
-                </div>
+                      <CardContent style={{ padding: "13px 15px" }}>
+                        <p
+                          style={{
+                            color: C.textMut,
+                            fontSize: 10,
+                            letterSpacing: 1.5,
+                            textTransform: "uppercase",
+                            marginBottom: 6,
+                          }}
+                        >
+                          Your draft
+                        </p>
+                        <p
+                          style={{
+                            color: C.textSec,
+                            fontSize: 13,
+                            lineHeight: 1.72,
+                            fontWeight: 300,
+                            margin: 0,
+                          }}
+                        >
+                          {input.trim() || "(empty)"}
+                        </p>
+                      </CardContent>
+                    </Card>
+
+                    {/* Strengthen button */}
+                    <Button
+                      onClick={() => {
+                        if (!input.trim()) return;
+                        setStrengthening(true);
+                        setStrengthened("");
+                        // Placeholder — will be Gemini API later
+                        setTimeout(() => {
+                          const mock = input
+                            .trim()
+                            .replace(/I think /gi, "It is evident that ")
+                            .replace(/is good/gi, "presents a compelling case")
+                            .replace(/is bad/gi, "raises significant concerns")
+                            .replace(/because/gi, "given that")
+                            .replace(/a lot of/gi, "substantial")
+                            .replace(/very/gi, "remarkably")
+                            .replace(/but/gi, "however,");
+                          setStrengthened(mock);
+                          setStrengthening(false);
+                        }, 900);
+                      }}
+                      disabled={!input.trim() || strengthening}
+                      style={{
+                        width: "100%",
+                        background:
+                          input.trim() && !strengthening ? C.sage : C.border,
+                        color:
+                          input.trim() && !strengthening
+                            ? "#0e0f0e"
+                            : C.textMut,
+                        borderRadius: 8,
+                        fontSize: 13,
+                        fontWeight: 500,
+                        letterSpacing: 0.3,
+                        height: 38,
+                        marginBottom: 16,
+                        transition: "all 0.2s",
+                        border: "none",
+                      }}
+                    >
+                      {strengthening ? "Reframing…" : "Reframe Argument"}
+                    </Button>
+
+                    {/* Reframed result */}
+                    {strengthened && (
+                      <Card
+                        style={{
+                          background: C.sageDim,
+                          border: `1px solid ${C.sageMid}`,
+                          borderRadius: 8,
+                        }}
+                      >
+                        <CardContent style={{ padding: "13px 15px" }}>
+                          <p
+                            style={{
+                              color: C.sage,
+                              fontSize: 10,
+                              letterSpacing: 1.5,
+                              textTransform: "uppercase",
+                              marginBottom: 6,
+                            }}
+                          >
+                            Reframed
+                          </p>
+                          <p
+                            style={{
+                              color: C.textPri,
+                              fontSize: 13,
+                              lineHeight: 1.72,
+                              fontWeight: 300,
+                              marginBottom: 12,
+                            }}
+                          >
+                            {strengthened}
+                          </p>
+                          <Button
+                            onClick={() => {
+                              setInput(strengthened);
+                              setStrengthened("");
+                            }}
+                            style={{
+                              background: "transparent",
+                              border: `1px solid ${C.sageMid}`,
+                              color: C.sage,
+                              borderRadius: 6,
+                              fontSize: 12,
+                              fontWeight: 400,
+                              height: 30,
+                              padding: "0 14px",
+                              transition: "all 0.15s",
+                            }}
+                          >
+                            Use this
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </>
+                )}
               </div>
             </TabsContent>
 
