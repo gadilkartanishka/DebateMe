@@ -1,8 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 
-// NOTE: In a real production app, never expose your API key in the frontend code!
-// This should be called from a backend server.
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
