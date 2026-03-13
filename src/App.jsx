@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { getWikiReferences, getOpponentResponse, reframeArgument, getDynamicContext } from "./services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -532,41 +533,74 @@ function Arena({ topic, position, onBack }) {
   const bottomRef = useRef(null);
   const textareaRef = useRef(null);
 
-  // Placeholder data — APIs wired in next step
-  const wikiText = `This topic has been the subject of extensive academic and public discourse. Scholars across disciplines have examined evidence from multiple angles, arriving at nuanced conclusions that challenge simplistic narratives on either side of the debate.`;
+  const [wikiReferences, setWikiReferences] = useState([]);
+  const [dynamicContext, setDynamicContext] = useState(null);
+
+  useEffect(() => {
+    async function fetchWiki() {
+      const refs = await getWikiReferences(topic, position);
+      setWikiReferences(refs);
+    }
+    fetchWiki();
+  }, [topic, position]);
+
+  useEffect(() => {
+    if (!input.trim() || input.trim().length < 20) {
+      setDynamicContext(null);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      const dyn = await getDynamicContext(topic, position, input);
+      if (dyn) setDynamicContext(dyn);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [input, topic, position]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, sending]);
 
-  function send() {
+  async function send() {
     if (!input.trim() || sending) return;
     const txt = input.trim();
     setInput("");
-    const score = Math.floor(Math.random() * 4) + 5;
-    setScores((p) => [...p, score]);
-    setMessages((p) => [
-      ...p,
-      {
-        role: "user",
-        content: txt,
-        score,
-        feedback:
-          "Good use of evidence — try anticipating the counter-argument.",
-      },
-    ]);
     setSending(true);
-    setTimeout(() => {
+
+    try {
+      const response = await getOpponentResponse(topic, position, messages, txt);
+      
+      setScores((p) => [...p, response.score]);
       setMessages((p) => [
         ...p,
         {
+          role: "user",
+          content: txt,
+          score: response.score,
+          feedback: response.feedback,
+        },
+        {
           role: "assistant",
-          content:
-            "That's a surface-level reading. The data you're implying doesn't account for confounding variables — and even if it did, correlation isn't causation. You'll need to do better.",
+          content: response.rebuttal,
         },
       ]);
+    } catch (err) {
+      console.error(err);
+      setMessages((p) => [
+        ...p,
+        {
+          role: "user",
+          content: txt,
+          score: null,
+          feedback: "Error capturing argument.",
+        },
+        {
+          role: "assistant",
+          content: "I am having trouble connecting to my knowledge base. Please check your API key and try again.",
+        },
+      ]);
+    } finally {
       setSending(false);
-    }, 1400);
+    }
   }
 
   const avg = scores.length
@@ -645,7 +679,7 @@ function Arena({ topic, position, onBack }) {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
-              padding: "5px 16px",
+              padding: "13px 16px",
               borderRadius: 20,
             }}
           >
@@ -950,7 +984,7 @@ function Arena({ topic, position, onBack }) {
           </div>
 
           <Tabs
-            defaultValue="wiki"
+            defaultValue="references"
             style={{
               flex: 1,
               display: "flex",
@@ -971,7 +1005,7 @@ function Arena({ topic, position, onBack }) {
                 justifyContent: "flex-start",
               }}
             >
-              {["wiki", "reframe", "scores"].map((t) => (
+              {["references", "factcheck", "reframe", "scores"].map((t) => (
                 <TabsTrigger
                   key={t}
                   value={t}
@@ -987,18 +1021,20 @@ function Arena({ topic, position, onBack }) {
                     transition: "all 0.2s",
                   }}
                 >
-                  {t === "wiki"
-                    ? "Context"
-                    : t === "reframe"
-                      ? "Reframe"
-                      : "Scores"}
+                  {t === "references"
+                    ? "References"
+                    : t === "factcheck"
+                      ? "Fact Check"
+                      : t === "reframe"
+                        ? "Reframe"
+                        : "Scores"}
                 </TabsTrigger>
               ))}
             </TabsList>
 
-            {/* Context tab */}
+            {/* References Tab */}
             <TabsContent
-              value="wiki"
+              value="references"
               style={{ flex: 1, overflowY: "auto", padding: 18, margin: 0 }}
             >
               <div className="tab-body">
@@ -1026,19 +1062,101 @@ function Arena({ topic, position, onBack }) {
                       textTransform: "uppercase",
                     }}
                   >
-                    Wikipedia
+                    Wikipedia References
+                  </span>
+                </div>
+                {wikiReferences.length === 0 ? (
+                  <p style={{ color: C.textSec, fontSize: 13, fontWeight: 300 }}>Loading references...</p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    {wikiReferences.map((ref, idx) => (
+                      <Card
+                        key={idx}
+                        style={{
+                          background: C.surfaceHi,
+                          border: `1px solid ${C.border}`,
+                          borderRadius: 8,
+                        }}
+                      >
+                        <CardContent style={{ padding: "12px" }}>
+                          <a
+                            href={ref.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              color: C.textNorm,
+                              fontSize: 13,
+                              fontWeight: 500,
+                              display: "block",
+                              marginBottom: 6,
+                              textDecoration: "none",
+                            }}
+                          >
+                            {ref.title} ↗
+                          </a>
+                          <p
+                            style={{
+                              color: C.textSec,
+                              fontSize: 12,
+                              lineHeight: 1.6,
+                              margin: 0,
+                              fontWeight: 300,
+                            }}
+                          >
+                            {ref.snippet}...
+                          </p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+
+            {/* Fact Check Tab */}
+            <TabsContent
+              value="factcheck"
+              style={{ flex: 1, overflowY: "auto", padding: 18, margin: 0 }}
+            >
+              <div className="tab-body">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    marginBottom: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 4,
+                      height: 4,
+                      borderRadius: "50%",
+                      background: C.sage,
+                    }}
+                  />
+                  <span
+                    style={{
+                      color: C.textMut,
+                      fontSize: 10,
+                      letterSpacing: 1.5,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Live Fact Check
                   </span>
                 </div>
                 <p
                   style={{
-                    color: C.textSec,
+                    color: dynamicContext ? C.sage : C.textSec,
                     fontSize: 13,
                     lineHeight: 1.82,
                     fontWeight: 300,
                     marginBottom: 16,
+                    whiteSpace: "pre-wrap",
                   }}
                 >
-                  {wikiText}
+                  {dynamicContext || "Start typing your argument to see live statistics and fact-checking here..."}
                 </p>
                 <Card
                   style={{
@@ -1056,7 +1174,7 @@ function Arena({ topic, position, onBack }) {
                         margin: 0,
                       }}
                     >
-                      Use as background context — not your only source.
+                      AI facts update dynamically based on your drafting text.
                     </p>
                   </CardContent>
                 </Card>
@@ -1148,24 +1266,18 @@ function Arena({ topic, position, onBack }) {
 
                     {/* Strengthen button */}
                     <Button
-                      onClick={() => {
+                      onClick={async () => {
                         if (!input.trim()) return;
                         setStrengthening(true);
                         setStrengthened("");
-                        // Placeholder — will be Gemini API later
-                        setTimeout(() => {
-                          const mock = input
-                            .trim()
-                            .replace(/I think /gi, "It is evident that ")
-                            .replace(/is good/gi, "presents a compelling case")
-                            .replace(/is bad/gi, "raises significant concerns")
-                            .replace(/because/gi, "given that")
-                            .replace(/a lot of/gi, "substantial")
-                            .replace(/very/gi, "remarkably")
-                            .replace(/but/gi, "however,");
-                          setStrengthened(mock);
+                        try {
+                          const stronger = await reframeArgument(topic, position, input);
+                          setStrengthened(stronger);
+                        } catch (err) {
+                          setStrengthened("Failed to reframe argument. Please check your API key and try again.");
+                        } finally {
                           setStrengthening(false);
-                        }, 900);
+                        }
                       }}
                       disabled={!input.trim() || strengthening}
                       style={{
