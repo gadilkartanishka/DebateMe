@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Landing } from "./components/Landing";
 import { Arena } from "./components/Arena";
+import { Header } from "./components/Header";
 import { GLOBAL_CSS } from "./lib/theme";
 
 export default function App() {
@@ -18,7 +19,10 @@ export default function App() {
     <>
       <style>{GLOBAL_CSS}</style>
       {screen === "landing" ? (
-        <Landing onStart={start} />
+        <>
+          <Header onStart={start} />
+          <Landing onStart={start} />
+        </>
       ) : (
         <Arena
           topic={topic}
