@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Landing } from "./components/Landing";
 import { Arena } from "./components/Arena";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { GLOBAL_CSS } from "./lib/theme";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <>
           <Header onStart={start} />
           <Landing onStart={start} />
+          <Footer />
         </>
       ) : (
         <Arena

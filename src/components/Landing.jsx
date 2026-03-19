@@ -23,6 +23,7 @@ import { MovingBorder } from "@/components/aceternity/moving-border";
 import { Spotlight } from "@/components/aceternity/spotlight";
 import { AnimatedCounter } from "@/components/aceternity/animated-counter";
 import { BentoGrid, BentoCard } from "@/components/aceternity/bento-grid";
+import { InfiniteMarquee } from "@/components/aceternity/infinite-marquee";
 
 import { C } from "@/lib/theme";
 import { SectionLabel } from "./SectionLabel";
@@ -121,6 +122,28 @@ const TESTIMONIALS = [
       "I recommend DebateMe to all my students. The scoring system gives them objective feedback that helps them improve systematically.",
     avatar: "AP",
   },
+];
+
+const TOPICS_ROW_1 = [
+  "Artificial Intelligence",
+  "Climate Change Policy",
+  "Cryptocurrency Regulation",
+  "Gene Editing Ethics",
+  "Nuclear Energy",
+  "Student Debt Forgiveness",
+  "Mars Colonization",
+  "Social Media Censorship",
+];
+
+const TOPICS_ROW_2 = [
+  "Universal Basic Income",
+  "Electric Vehicle Mandates",
+  "Remote Work Future",
+  "Space Debris",
+  "Privacy in the Digital Age",
+  "Renewable Energy Subsidies",
+  "AI in Healthcare",
+  "The 4-Day Work Week",
 ];
 
 /* ───────────────────── COMPONENT ───────────────────── */
@@ -808,6 +831,142 @@ export function Landing({ onStart }) {
             </motion.div>
           ))}
         </div>
+      </section>
+
+      {/* ═══════════════ TRENDING TOPICS ═══════════════ */}
+      <section
+        id="topics"
+        style={{
+          padding: "100px 0",
+          background: C.bg,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{ textAlign: "center", marginBottom: 50, padding: "0 24px" }}
+        >
+          <SectionLabel>Trending Topics</SectionLabel>
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 44,
+              fontWeight: 600,
+              color: C.white,
+              letterSpacing: -0.5,
+              marginBottom: 12,
+            }}
+          >
+            What the world is{" "}
+            <span style={{ color: C.sage, fontStyle: "italic" }}>debating</span>
+          </h2>
+        </motion.div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 14,
+            width: "100%",
+          }}
+        >
+          <InfiniteMarquee items={TOPICS_ROW_1} direction="left" speed={35} />
+          <InfiniteMarquee items={TOPICS_ROW_2} direction="right" speed={40} />
+        </div>
+      </section>
+
+      {/* ═══════════════ FINAL CTA ═══════════════ */}
+      <section
+        style={{
+          padding: "120px 24px",
+          position: "relative",
+          overflow: "hidden",
+          textAlign: "center",
+        }}
+      >
+        <Spotlight fill="rgba(143,170,139,0.08)" />
+
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            background: `radial-gradient(circle at 50% 50%, ${C.sageGlow} 0%, transparent 70%)`,
+          }}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          style={{ position: "relative", zIndex: 1 }}
+        >
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 54,
+              fontWeight: 600,
+              color: C.white,
+              letterSpacing: -1,
+              marginBottom: 16,
+            }}
+          >
+            Ready to defend{" "}
+            <span style={{ color: C.sage, fontStyle: "italic" }}>
+              your ideas?
+            </span>
+          </h2>
+          <p
+            style={{
+              color: C.textSec,
+              fontSize: 17,
+              fontWeight: 300,
+              maxWidth: 480,
+              margin: "0 auto 40px",
+              lineHeight: 1.6,
+            }}
+          >
+            Jump in and challenge yourself against an AI that won't go easy on
+            you.
+          </p>
+
+          <button
+            onClick={() => {
+              const hero = document.querySelector("#hero-form");
+              if (hero) hero.scrollIntoView({ behavior: "smooth" });
+            }}
+            style={{
+              padding: "16px 36px",
+              borderRadius: 12,
+              background: `linear-gradient(135deg, ${C.sage}, #6a9a68)`,
+              color: "#0e0f0e",
+              fontSize: 16,
+              fontWeight: 500,
+              letterSpacing: 0.4,
+              border: "none",
+              cursor: "pointer",
+              transition: "transform 0.2s, box-shadow 0.2s",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
+              e.currentTarget.style.boxShadow = `0 10px 30px ${C.sageDim}`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0) scale(1)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            Start Your First Debate <Target size={18} />
+          </button>
+        </motion.div>
       </section>
     </div>
   );
