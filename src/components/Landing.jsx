@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   MessageSquare,
@@ -12,32 +11,16 @@ import {
   Quote,
 } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-
-import { BackgroundBeams } from "@/components/aceternity/background-beams";
-import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect";
-import { MovingBorder } from "@/components/aceternity/moving-border";
-import { Spotlight } from "@/components/aceternity/spotlight";
 import { AnimatedCounter } from "@/components/aceternity/animated-counter";
 import { BentoGrid, BentoCard } from "@/components/aceternity/bento-grid";
 import { InfiniteMarquee } from "@/components/aceternity/infinite-marquee";
+import { Spotlight } from "@/components/aceternity/spotlight";
 
 import { C } from "@/lib/theme";
 import { SectionLabel } from "./SectionLabel";
+import HeroVisual from "./HeroVisual";
 
 /* ───────────────────── DATA ───────────────────── */
-
-const SUGGESTIONS = [
-  "Artificial intelligence",
-  "Remote work",
-  "Social media",
-  "Space exploration",
-  "Universal basic income",
-  "Electric vehicles",
-];
 
 const HOW_IT_WORKS = [
   {
@@ -148,24 +131,7 @@ const TOPICS_ROW_2 = [
 
 /* ───────────────────── COMPONENT ───────────────────── */
 
-export function Landing({ onStart }) {
-  const [topic, setTopic] = useState("");
-  const [pos, setPos] = useState("");
-  const [err, setErr] = useState("");
-
-  function go() {
-    if (!topic.trim()) {
-      setErr("Please enter a topic.");
-      return;
-    }
-    if (!pos.trim()) {
-      setErr("Please state your position.");
-      return;
-    }
-    setErr("");
-    onStart(topic.trim(), pos.trim());
-  }
-
+export function Landing({ onStartSetup }) {
   return (
     <div style={{ background: C.bg, overflowX: "hidden" }}>
       {/* ════════════════════ HERO SECTION ════════════════════ */}
@@ -182,247 +148,115 @@ export function Landing({ onStart }) {
           overflow: "hidden",
         }}
       >
-        <BackgroundBeams />
-        <Spotlight fill="rgba(143,170,139,0.06)" />
+        <HeroVisual />
 
         <div
           style={{
             position: "absolute",
             inset: 0,
             pointerEvents: "none",
-            background: `radial-gradient(ellipse 55% 40% at 50% 0%, ${C.sageGlow} 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse 60% 60% at 50% 50%, rgba(14, 15, 14, 0.4) 0%, ${C.bg} 100%)`,
+            zIndex: 1
           }}
         />
 
         {/* Hero headline */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           style={{
             textAlign: "center",
-            marginBottom: 50,
-            maxWidth: 600,
+            maxWidth: 800,
             position: "relative",
+            zIndex: 2,
           }}
         >
-          <TextGenerateEffect
-            words="Argue your position."
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 60,
-              fontWeight: 600,
-              color: C.white,
-              lineHeight: 1.08,
-              letterSpacing: -0.5,
-              marginBottom: 8,
-              display: "block",
-            }}
-          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            style={{ marginBottom: 24 }}
+          >
+            <SectionLabel>The Arena of Reason</SectionLabel>
+          </motion.div>
+
           <h1
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 60,
+              fontSize: "clamp(60px, 10vw, 100px)",
               fontWeight: 600,
-              color: C.sage,
-              lineHeight: 1.08,
-              letterSpacing: -0.5,
-              fontStyle: "italic",
-              marginBottom: 24,
+              color: C.white,
+              lineHeight: 0.95,
+              letterSpacing: -2,
+              marginBottom: 16,
             }}
           >
-            Defend it.
+            Argue your <br />
+            <span style={{ color: C.sage, fontStyle: "italic" }}>position.</span>
           </h1>
-          <p
-            style={{
-              color: C.textSec,
-              fontSize: 16,
-              lineHeight: 1.8,
-              fontWeight: 300,
-              maxWidth: 420,
-              margin: "0 auto",
-            }}
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
           >
-            State your opinion. An AI takes the hardest opposing stance and
-            won't let you off easy. Sharpen your mind.
-          </p>
-        </motion.div>
+            <p
+              style={{
+                color: C.textSec,
+                fontSize: "clamp(16px, 2vw, 20px)",
+                lineHeight: 1.6,
+                fontWeight: 300,
+                maxWidth: 500,
+                margin: "24px auto 48px",
+                letterSpacing: 0.2
+              }}
+            >
+              Face an AI that finds every flaw in your logic. 
+              Sharpen your mind in the ultimate debate simulator.
+            </p>
 
-        {/* Hero form */}
-        <motion.div
-          id="hero-form"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          style={{
-            width: "100%",
-            maxWidth: 480,
-            position: "relative",
-            marginBottom: 28,
-          }}
-        >
-          <Card
-            style={{
-              background: C.surface,
-              border: `1px solid ${C.border}`,
-              borderRadius: 16,
-            }}
-          >
-            <CardContent style={{ padding: 30 }}>
-              <div style={{ marginBottom: 18 }}>
-                <SectionLabel>Debate Topic</SectionLabel>
-                <Input
-                  value={topic}
-                  onChange={(e) => {
-                    setTopic(e.target.value);
-                    setErr("");
-                  }}
-                  onKeyDown={(e) => e.key === "Enter" && go()}
-                  placeholder="e.g. Artificial intelligence, Remote work…"
-                  style={{
-                    background: C.surfaceHi,
-                    border: `1px solid ${C.border}`,
-                    color: C.textPri,
-                    fontSize: 15,
-                    fontWeight: 300,
-                    height: 52,
-                    padding: "0 18px",
-                  }}
-                />
-              </div>
-              <div style={{ marginBottom: 22 }}>
-                <SectionLabel>Your Position</SectionLabel>
-                <Input
-                  value={pos}
-                  onChange={(e) => {
-                    setPos(e.target.value);
-                    setErr("");
-                  }}
-                  onKeyDown={(e) => e.key === "Enter" && go()}
-                  placeholder="e.g. AI will create more jobs than it destroys"
-                  style={{
-                    background: C.surfaceHi,
-                    border: `1px solid ${C.border}`,
-                    color: C.textPri,
-                    fontSize: 15,
-                    fontWeight: 300,
-                    height: 52,
-                    padding: "0 18px",
-                  }}
-                />
-              </div>
-
-              {err && (
-                <Alert
-                  style={{
-                    background: "#a86a6a11",
-                    border: "1px solid #a86a6a44",
-                    marginBottom: 16,
-                    borderRadius: 8,
-                    padding: "12px 16px",
-                  }}
-                >
-                  <AlertDescription
-                    style={{ color: "#a86a6a", fontSize: 13 }}
-                  >
-                    {err}
-                  </AlertDescription>
-                </Alert>
-              )}
-
-              <MovingBorder
-                onClick={go}
-                style={{
-                  width: "100%",
-                  padding: "13px",
-                  background: C.sage,
-                  color: "#0e0f0e",
-                  borderRadius: 10,
-                  fontSize: 14,
-                  fontWeight: 500,
-                  letterSpacing: 0.4,
-                  border: "none",
-                }}
-              >
-                Begin Debate
-              </MovingBorder>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Quick suggestions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          style={{
-            textAlign: "center",
-            marginBottom: 48,
-            position: "relative",
-          }}
-        >
-          <SectionLabel>Try one of these</SectionLabel>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-              justifyContent: "center",
-              maxWidth: 700,
-            }}
-          >
-            {SUGGESTIONS.map((s) => (
-              <Badge
-                key={s}
-                onClick={() => setTopic(s)}
-                variant="outline"
-                style={{
-                  cursor: "pointer",
-                  padding: "0 20px",
-                  borderRadius: 28,
-                  border: `1px solid ${C.border}`,
-                  color: C.textSec,
-                  fontSize: 13,
-                  fontWeight: 300,
-                  background: "transparent",
-                  transition: "all 0.18s",
-                  letterSpacing: 0.3,
-                  height: 34,
-                  display: "inline-flex",
-                  alignItems: "center",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = C.sageMid;
-                  e.currentTarget.style.color = C.sage;
-                  e.currentTarget.style.background = C.sageDim;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = C.border;
-                  e.currentTarget.style.color = C.textSec;
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                {s}
-              </Badge>
-            ))}
-          </div>
+            <motion.button
+              onClick={onStartSetup}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                padding: "18px 48px",
+                borderRadius: 14,
+                background: `linear-gradient(135deg, ${C.sage}, #6a9a68)`,
+                color: "#0e0f0e",
+                fontSize: 18,
+                fontWeight: 600,
+                letterSpacing: 0.5,
+                border: "none",
+                cursor: "pointer",
+                boxShadow: `0 10px 40px ${C.sageGlow}`,
+              }}
+            >
+              Start Debating
+            </motion.button>
+          </motion.div>
         </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
           style={{
             position: "absolute",
-            bottom: 32,
+            bottom: 40,
             left: "50%",
             transform: "translateX(-50%)",
+            zIndex: 2
           }}
         >
-          <div
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
             style={{
               width: 24,
-              height: 38,
+              height: 40,
               borderRadius: 12,
               border: `1.5px solid ${C.border}`,
               display: "flex",
@@ -432,13 +266,13 @@ export function Landing({ onStart }) {
           >
             <div
               style={{
-                width: 3,
+                width: 2,
                 height: 8,
-                borderRadius: 2,
+                borderRadius: 1,
                 background: C.sageMid,
               }}
             />
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -936,10 +770,7 @@ export function Landing({ onStart }) {
           </p>
 
           <button
-            onClick={() => {
-              const hero = document.querySelector("#hero-form");
-              if (hero) hero.scrollIntoView({ behavior: "smooth" });
-            }}
+            onClick={onStartSetup}
             style={{
               padding: "16px 36px",
               borderRadius: 12,
