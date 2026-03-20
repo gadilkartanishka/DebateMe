@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { label: "Testimonials", href: "#testimonials" },
 ];
 
-export function Header({ onStart }) {
+export function Header({ onStartSetup }) {
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
@@ -128,10 +128,7 @@ export function Header({ onStart }) {
 
       {/* CTA */}
       <button
-        onClick={() => {
-          const hero = document.querySelector("#hero-form");
-          if (hero) hero.scrollIntoView({ behavior: "smooth" });
-        }}
+        onClick={onStartSetup}
         style={{
           padding: "9px 22px",
           borderRadius: 8,
