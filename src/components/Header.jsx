@@ -132,7 +132,7 @@ export function Header({ onStartSetup }) {
         style={{
           padding: "9px 22px",
           borderRadius: 8,
-          background: `linear-gradient(135deg, ${C.sage}, #6a9a68)`,
+          background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
           color: "#0e0f0e",
           fontSize: 13,
           fontWeight: 400,

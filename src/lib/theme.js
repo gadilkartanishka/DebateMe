@@ -1,17 +1,17 @@
 export const C = {
-  bg: "#0e0f0e",
-  surface: "#161714",
-  surfaceHi: "#1e1f1c",
-  border: "#252623",
-  borderSub: "#1c1d1a",
-  sage: "#8faa8b",
-  sageDim: "#8faa8b22",
-  sageMid: "#8faa8b55",
-  sageGlow: "#8faa8b0d",
-  textPri: "#e8e6e0",
-  textSec: "#9a9890",
-  textMut: "#5a5a55",
-  white: "#f5f3ee",
+  bg: "#050510",
+  surface: "#0d0d1c",
+  surfaceHi: "#16162b",
+  border: "#262645",
+  borderSub: "#1a1a30",
+  sage: "#00e5ff", // Electric Cyan
+  sageDim: "#00e5ff22",
+  sageMid: "#00e5ff55",
+  sageGlow: "#00e5ff11",
+  textPri: "#f8fafc",
+  textSec: "#94a3b8",
+  textMut: "#475569",
+  white: "#ffffff",
 };
 
 export const GLOBAL_CSS = `
@@ -55,23 +55,23 @@ export const GLOBAL_CSS = `
   .msg { animation: fadeUp 0.35s ease both; }
   .tab-body { animation: slideIn 0.25s ease both; }
 
-  /* shadcn overrides — map to our dark sage theme */
+  /* shadcn overrides — map to our dark vibrant theme */
   :root {
-    --background: 82 6% 6%;
-    --foreground: 60 5% 90%;
-    --card: 82 5% 9%;
-    --card-foreground: 60 5% 90%;
-    --border: 80 4% 14%;
-    --input: 80 4% 14%;
-    --primary: 112 14% 60%;
-    --primary-foreground: 82 6% 6%;
-    --secondary: 82 5% 11%;
-    --secondary-foreground: 60 5% 60%;
-    --muted: 82 5% 11%;
-    --muted-foreground: 60 4% 36%;
-    --accent: 112 14% 60%;
-    --accent-foreground: 82 6% 6%;
-    --ring: 112 14% 60%;
+    --background: 240 53% 4%;
+    --foreground: 210 40% 98%;
+    --card: 240 37% 8%;
+    --card-foreground: 210 40% 98%;
+    --border: 240 29% 21%;
+    --input: 240 29% 21%;
+    --primary: 186 100% 50%;
+    --primary-foreground: 240 53% 4%;
+    --secondary: 240 37% 12%;
+    --secondary-foreground: 210 40% 80%;
+    --muted: 240 37% 12%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 186 100% 50%;
+    --accent-foreground: 240 53% 4%;
+    --ring: 186 100% 50%;
     --radius: 0.625rem;
   }
 
