@@ -149,7 +149,6 @@ export function Landing({ onStartSetup }) {
           overflow: "hidden",
         }}
       >
-        <BackgroundBeams />
         <HeroVisual />
 
         <div

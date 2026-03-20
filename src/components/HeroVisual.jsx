@@ -1,6 +1,6 @@
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, PerspectiveCamera, Icosahedron } from "@react-three/drei";
+import { Float, MeshDistortMaterial, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { C } from "@/lib/theme";
 
@@ -33,29 +33,6 @@ function LogicSphere() {
       {/* Floating particles/nodes */}
       <Dots count={40} />
     </group>
-  );
-}
-
-function GeometricCore() {
-  const meshRef = useRef();
-  
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = time * 0.2;
-    meshRef.current.rotation.y = time * 0.25;
-  });
-
-  return (
-    <Icosahedron ref={meshRef} args={[1, 0]}>
-      <meshStandardMaterial 
-        color={C.sage} 
-        wireframe 
-        transparent 
-        opacity={0.6}
-        emissive={C.sage}
-        emissiveIntensity={0.2}
-      />
-    </Icosahedron>
   );
 }
 
@@ -121,7 +98,6 @@ export default function HeroVisual() {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} color={C.sage} />
         <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-          <GeometricCore />
           <LogicSphere />
         </Float>
       </Canvas>
