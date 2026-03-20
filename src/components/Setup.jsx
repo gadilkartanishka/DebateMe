@@ -41,7 +41,7 @@ export function Setup({ onStart, onBack }) {
       overflow: "hidden"
     }}>
       <BackgroundBeams />
-      <Spotlight fill="rgba(143,170,139,0.06)" />
+      <Spotlight fill="rgba(168,162,248,0.1)" />
 
       {/* Back Button */}
       <motion.button
@@ -166,7 +166,7 @@ export function Setup({ onStart, onBack }) {
                 width: "100%",
                 padding: "16px",
                 background: C.sage,
-                color: "#0e0f0e",
+                color: C.white,
                 borderRadius: 12,
                 fontSize: 16,
                 fontWeight: 500,

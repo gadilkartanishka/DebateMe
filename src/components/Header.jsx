@@ -45,7 +45,7 @@ export function Header({ onStartSetup }) {
         alignItems: "center",
         justifyContent: "space-between",
         background: scrolled
-          ? "rgba(14, 15, 14, 0.75)"
+          ? "rgba(253, 251, 247, 0.85)"
           : "transparent",
         backdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
@@ -133,7 +133,7 @@ export function Header({ onStartSetup }) {
           padding: "9px 22px",
           borderRadius: 8,
           background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
-          color: "#0e0f0e",
+          color: C.white,
           fontSize: 13,
           fontWeight: 400,
           letterSpacing: 0.4,

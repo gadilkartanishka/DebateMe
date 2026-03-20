@@ -156,7 +156,7 @@ export function Landing({ onStartSetup }) {
             position: "absolute",
             inset: 0,
             pointerEvents: "none",
-            background: `radial-gradient(ellipse 60% 60% at 50% 50%, rgba(14, 15, 14, 0.4) 0%, ${C.bg} 100%)`,
+            background: `radial-gradient(ellipse 60% 60% at 50% 50%, rgba(253, 251, 247, 0.5) 0%, ${C.bg} 100%)`,
             zIndex: 1
           }}
         />
@@ -225,7 +225,7 @@ export function Landing({ onStartSetup }) {
                 padding: "18px 48px",
                 borderRadius: 14,
                 background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
-                color: "#0e0f0e",
+                color: C.white,
                 fontSize: 18,
                 fontWeight: 500,
                 letterSpacing: 0.5,
@@ -635,7 +635,7 @@ export function Landing({ onStartSetup }) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#0e0f0e",
+                    color: C.white,
                     fontSize: 13,
                     fontWeight: 600,
                   }}
@@ -723,7 +723,7 @@ export function Landing({ onStartSetup }) {
           textAlign: "center",
         }}
       >
-        <Spotlight fill="rgba(143,170,139,0.08)" />
+        <Spotlight fill="rgba(168,162,248,0.15)" />
 
         <div
           style={{
@@ -776,7 +776,7 @@ export function Landing({ onStartSetup }) {
               padding: "16px 36px",
               borderRadius: 12,
               background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
-              color: "#0e0f0e",
+              color: C.white,
               fontSize: 16,
               fontWeight: 500,
               letterSpacing: 0.4,

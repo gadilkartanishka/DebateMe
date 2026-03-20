@@ -1,17 +1,17 @@
 export const C = {
-  bg: "#050510",
-  surface: "#0d0d1c",
-  surfaceHi: "#16162b",
-  border: "#262645",
-  borderSub: "#1a1a30",
-  sage: "#00e5ff", // Electric Cyan
-  sageDim: "#00e5ff22",
-  sageMid: "#00e5ff55",
-  sageGlow: "#00e5ff11",
-  textPri: "#f8fafc",
-  textSec: "#94a3b8",
-  textMut: "#475569",
-  white: "#ffffff",
+  bg: "#fdfbf7",     // Light creamy background
+  surface: "#ffffff",
+  surfaceHi: "#f4f1ea",
+  border: "#eae5d9",
+  borderSub: "#f4f1ea",
+  sage: "#a78bfa",   // Pastel violet
+  sageDim: "#a78bfa22",
+  sageMid: "#a78bfa55",
+  sageGlow: "#a78bfa11",
+  textPri: "#1e293b", // Dark slate for primary text
+  textSec: "#475569",
+  textMut: "#94a3b8",
+  white: "#0f172a",  // "white" is now actually very dark for contrast
 };
 
 export const GLOBAL_CSS = `
@@ -55,23 +55,27 @@ export const GLOBAL_CSS = `
   .msg { animation: fadeUp 0.35s ease both; }
   .tab-body { animation: slideIn 0.25s ease both; }
 
-  /* shadcn overrides — map to our dark vibrant theme */
+  /* shadcn overrides — map to our light pastel theme */
   :root {
-    --background: 240 53% 4%;
-    --foreground: 210 40% 98%;
-    --card: 240 37% 8%;
-    --card-foreground: 210 40% 98%;
-    --border: 240 29% 21%;
-    --input: 240 29% 21%;
-    --primary: 186 100% 50%;
-    --primary-foreground: 240 53% 4%;
-    --secondary: 240 37% 12%;
-    --secondary-foreground: 210 40% 80%;
-    --muted: 240 37% 12%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 186 100% 50%;
-    --accent-foreground: 240 53% 4%;
-    --ring: 186 100% 50%;
+    --background: 40 33% 98%;      /* #fdfbf7 */
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;             /* #ffffff */
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 255 92% 76%;        /* pastel violet */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 255 92% 76%;
     --radius: 0.625rem;
   }
 
