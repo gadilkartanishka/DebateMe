@@ -224,7 +224,7 @@ export function Landing({ onStartSetup }) {
               style={{
                 padding: "18px 48px",
                 borderRadius: 14,
-                background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
+                background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
                 color: C.white,
                 fontSize: 18,
                 fontWeight: 500,
@@ -631,7 +631,7 @@ export function Landing({ onStartSetup }) {
                     width: 40,
                     height: 40,
                     borderRadius: 10,
-                    background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
+                    background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -775,7 +775,7 @@ export function Landing({ onStartSetup }) {
             style={{
               padding: "16px 36px",
               borderRadius: 12,
-              background: `linear-gradient(135deg, ${C.sage}, #0284c7)`,
+              background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
               color: C.white,
               fontSize: 16,
               fontWeight: 500,

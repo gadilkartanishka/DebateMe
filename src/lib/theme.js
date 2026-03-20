@@ -4,10 +4,10 @@ export const C = {
   surfaceHi: "#f4f1ea",
   border: "#eae5d9",
   borderSub: "#f4f1ea",
-  sage: "#a78bfa",   // Pastel violet
-  sageDim: "#a78bfa22",
-  sageMid: "#a78bfa55",
-  sageGlow: "#a78bfa11",
+  sage: "#fb923c",   // Pastel Orange
+  sageDim: "#fb923c22",
+  sageMid: "#fb923c55",
+  sageGlow: "#fb923c11",
   textPri: "#1e293b", // Dark slate for primary text
   textSec: "#475569",
   textMut: "#94a3b8",
@@ -63,7 +63,7 @@ export const GLOBAL_CSS = `
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 255 92% 76%;        /* pastel violet */
+    --primary: 27 96% 61%;         /* orange-400 */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11.2%;
@@ -75,7 +75,7 @@ export const GLOBAL_CSS = `
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 255 92% 76%;
+    --ring: 27 96% 61%;
     --radius: 0.625rem;
   }
 
