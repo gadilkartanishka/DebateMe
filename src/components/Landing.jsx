@@ -15,6 +15,7 @@ import { AnimatedCounter } from "@/components/aceternity/animated-counter";
 import { BentoGrid, BentoCard } from "@/components/aceternity/bento-grid";
 import { InfiniteMarquee } from "@/components/aceternity/infinite-marquee";
 import { Spotlight } from "@/components/aceternity/spotlight";
+import { BackgroundBeams } from "@/components/aceternity/background-beams";
 
 import { C } from "@/lib/theme";
 import { SectionLabel } from "./SectionLabel";
@@ -148,6 +149,7 @@ export function Landing({ onStartSetup }) {
           overflow: "hidden",
         }}
       >
+        <BackgroundBeams />
         <HeroVisual />
 
         <div
@@ -226,7 +228,7 @@ export function Landing({ onStartSetup }) {
                 background: `linear-gradient(135deg, ${C.sage}, #6a9a68)`,
                 color: "#0e0f0e",
                 fontSize: 18,
-                fontWeight: 600,
+                fontWeight: 500,
                 letterSpacing: 0.5,
                 border: "none",
                 cursor: "pointer",
@@ -795,7 +797,7 @@ export function Landing({ onStartSetup }) {
               e.currentTarget.style.boxShadow = "none";
             }}
           >
-            Start Your First Debate <Target size={18} />
+            Start Your First Debate
           </button>
         </motion.div>
       </section>

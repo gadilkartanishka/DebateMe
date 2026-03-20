@@ -169,7 +169,7 @@ export function Setup({ onStart, onBack }) {
                 color: "#0e0f0e",
                 borderRadius: 12,
                 fontSize: 16,
-                fontWeight: 600,
+                fontWeight: 500,
                 letterSpacing: 0.5,
                 border: "none",
                 display: "flex",
@@ -178,7 +178,7 @@ export function Setup({ onStart, onBack }) {
                 gap: 10
               }}
             >
-              Enter Arena <Zap size={18} fill="#0e0f0e" />
+              Enter Arena
             </MovingBorder>
           </CardContent>
         </Card>

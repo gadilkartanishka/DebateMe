@@ -135,7 +135,7 @@ export function Header({ onStartSetup }) {
           background: `linear-gradient(135deg, ${C.sage}, #6a9a68)`,
           color: "#0e0f0e",
           fontSize: 13,
-          fontWeight: 500,
+          fontWeight: 400,
           letterSpacing: 0.4,
           border: "none",
           cursor: "pointer",
