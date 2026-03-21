@@ -1,19 +1,33 @@
+// export const C = {
+//   bg: "#fdfbf7", // Light creamy background
+//   surface: "#ffffff",
+//   surfaceHi: "#f4f1ea",
+//   border: "#eae5d9",
+//   borderSub: "#f4f1ea",
+//   sage: "#fb923c", // Pastel Orange
+//   sageDim: "#fb923c22",
+//   sageMid: "#fb923c55",
+//   sageGlow: "#fb923c11",
+//   textPri: "#1e293b", // Dark slate for primary text
+//   textSec: "#475569",
+//   textMut: "#94a3b8",
+//   white: "#0f172a", // "white" is now actually very dark for contrast
+// };
 export const C = {
-  bg: "#fdfbf7",     // Light creamy background
-  surface: "#ffffff",
-  surfaceHi: "#f4f1ea",
-  border: "#eae5d9",
-  borderSub: "#f4f1ea",
-  sage: "#fb923c",   // Pastel Orange
-  sageDim: "#fb923c22",
-  sageMid: "#fb923c55",
-  sageGlow: "#fb923c11",
-  textPri: "#1e293b", // Dark slate for primary text
-  textSec: "#475569",
-  textMut: "#94a3b8",
-  white: "#0f172a",  // "white" is now actually very dark for contrast
+  bg: "#1b1e1c",
+  surface: "#232624",
+  surfaceHi: "#2b2f2c",
+  border: "#3a3f3b",
+  borderSub: "#2b2f2c",
+  sage: "#7a9e7e",
+  sageDim: "#7a9e7e22",
+  sageMid: "#7a9e7e55",
+  sageGlow: "#7a9e7e11",
+  textPri: "#d8ddd9",
+  textSec: "#848f86",
+  textMut: "#454a46",
+  white: "#eaefeb",
 };
-
 export const GLOBAL_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
 

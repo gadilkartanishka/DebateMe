@@ -14,8 +14,8 @@ import {
 import { AnimatedCounter } from "@/components/aceternity/animated-counter";
 import { BentoGrid, BentoCard } from "@/components/aceternity/bento-grid";
 import { InfiniteMarquee } from "@/components/aceternity/infinite-marquee";
-import { Spotlight } from "@/components/aceternity/spotlight";
 import { BackgroundBeams } from "@/components/aceternity/background-beams";
+import { DotBackground } from "@/components/aceternity/dot-background";
 
 import { C } from "@/lib/theme";
 import { SectionLabel } from "./SectionLabel";
@@ -151,16 +151,6 @@ export function Landing({ onStartSetup }) {
       >
         <HeroVisual />
 
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            background: `radial-gradient(ellipse 60% 60% at 50% 50%, rgba(253, 251, 247, 0.5) 0%, ${C.bg} 100%)`,
-            zIndex: 1
-          }}
-        />
-
         {/* Hero headline */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -194,9 +184,11 @@ export function Landing({ onStartSetup }) {
             }}
           >
             Argue your <br />
-            <span style={{ color: C.sage, fontStyle: "italic" }}>position.</span>
+            <span style={{ color: C.sage, fontStyle: "italic" }}>
+              position.
+            </span>
           </h1>
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -210,69 +202,40 @@ export function Landing({ onStartSetup }) {
                 fontWeight: 300,
                 maxWidth: 500,
                 margin: "24px auto 48px",
-                letterSpacing: 0.2
+                letterSpacing: 0.2,
               }}
             >
-              Face an AI that finds every flaw in your logic. 
-              Sharpen your mind in the ultimate debate simulator.
+              Face an AI that finds every flaw in your logic. Sharpen your mind
+              in the ultimate debate simulator.
             </p>
 
             <motion.button
               onClick={onStartSetup}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = `linear-gradient(135deg, ${C.sage}, #60a5fa)`;
+                e.currentTarget.style.color = "#ffffff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = C.sage;
+                e.currentTarget.style.color = C.bg;
+              }}
               style={{
-                padding: "18px 48px",
+                padding: "12px 32px",
                 borderRadius: 14,
-                background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
-                color: C.white,
-                fontSize: 18,
+                background: C.sage,
+                color: C.bg,
+                fontSize: 15,
                 fontWeight: 500,
                 letterSpacing: 0.5,
                 border: "none",
                 cursor: "pointer",
-                boxShadow: `0 10px 40px ${C.sageGlow}`,
+                transition: "background 0.3s ease",
               }}
             >
               Start Debating
             </motion.button>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          style={{
-            position: "absolute",
-            bottom: 40,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 2
-          }}
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            style={{
-              width: 24,
-              height: 40,
-              borderRadius: 12,
-              border: `1.5px solid ${C.border}`,
-              display: "flex",
-              justifyContent: "center",
-              paddingTop: 8,
-            }}
-          >
-            <div
-              style={{
-                width: 2,
-                height: 8,
-                borderRadius: 1,
-                background: C.sageMid,
-              }}
-            />
           </motion.div>
         </motion.div>
       </section>
@@ -369,9 +332,7 @@ export function Landing({ onStartSetup }) {
               >
                 Step {item.step}
               </div>
-              <div style={{ color: C.sage, marginBottom: 14 }}>
-                {item.icon}
-              </div>
+              <div style={{ color: C.sage, marginBottom: 14 }}>{item.icon}</div>
               <h3
                 style={{
                   fontSize: 20,
@@ -481,7 +442,6 @@ export function Landing({ onStartSetup }) {
           overflow: "hidden",
         }}
       >
-        {/* Subtle grid pattern */}
         <div
           style={{
             position: "absolute",
@@ -631,11 +591,11 @@ export function Landing({ onStartSetup }) {
                     width: 40,
                     height: 40,
                     borderRadius: 10,
-                    background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
+                    background: C.sageDim,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: C.white,
+                    color: C.sage,
                     fontSize: 13,
                     fontWeight: 600,
                   }}
@@ -723,16 +683,8 @@ export function Landing({ onStartSetup }) {
           textAlign: "center",
         }}
       >
-        <Spotlight fill="rgba(168,162,248,0.15)" />
-
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            background: `radial-gradient(circle at 50% 50%, ${C.sageGlow} 0%, transparent 70%)`,
-          }}
-        />
+        {/* Dot grid background — only effect, no spotlight or radial glow */}
+        <DotBackground />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -773,27 +725,29 @@ export function Landing({ onStartSetup }) {
           <button
             onClick={onStartSetup}
             style={{
-              padding: "16px 36px",
+              padding: "11px 28px",
               borderRadius: 12,
-              background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
-              color: C.white,
-              fontSize: 16,
+              background: C.sage,
+              color: C.bg,
+              fontSize: 14,
               fontWeight: 500,
               letterSpacing: 0.4,
               border: "none",
               cursor: "pointer",
-              transition: "transform 0.2s, box-shadow 0.2s",
+              transition: "background 0.3s ease, transform 0.2s",
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
             }}
             onMouseEnter={(e) => {
+              e.currentTarget.style.background = `linear-gradient(135deg, ${C.sage}, #60a5fa)`;
               e.currentTarget.style.transform = "translateY(-2px) scale(1.02)";
-              e.currentTarget.style.boxShadow = `0 10px 30px ${C.sageDim}`;
+              e.currentTarget.style.color = "#ffffff";
             }}
             onMouseLeave={(e) => {
+              e.currentTarget.style.background = C.sage;
               e.currentTarget.style.transform = "translateY(0) scale(1)";
-              e.currentTarget.style.boxShadow = "none";
+              e.currentTarget.style.color = C.bg;
             }}
           >
             Start Your First Debate

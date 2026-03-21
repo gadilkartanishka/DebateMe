@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { C } from "@/lib/theme";
 
@@ -29,129 +29,239 @@ export function Header({ onStartSetup }) {
   }
 
   return (
-    <motion.header
-      initial={{ y: 0 }}
-      animate={{ y: hidden ? -100 : 0 }}
+    <motion.div
+      initial={{ y: 0, opacity: 1 }}
+      animate={{ y: hidden ? -120 : 0, opacity: hidden ? 0 : 1 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       style={{
         position: "fixed",
-        top: 0,
+        top: 20,
         left: 0,
         right: 0,
         zIndex: 1000,
-        padding: "0 32px",
-        height: 64,
         display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        background: scrolled
-          ? "rgba(253, 251, 247, 0.85)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px) saturate(1.8)" : "none",
-        borderBottom: scrolled
-          ? `1px solid ${C.border}`
-          : "1px solid transparent",
-        transition: "background 0.3s, border-color 0.3s, backdrop-filter 0.3s",
+        justifyContent: "center",
+        pointerEvents: "none",
       }}
     >
-      {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      {/* Iridescent glow behind the pill */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "85%",
+          height: "200%",
+          background: scrolled
+            ? `radial-gradient(ellipse at 50% 50%, rgba(122,158,126,0.45) 0%, rgba(122,158,126,0.20) 50%, transparent 100%)`
+            : `radial-gradient(ellipse at 50% 50%, rgba(122,158,126,0.25) 0%, rgba(122,158,126,0.10) 50%, transparent 100%)`,
+          filter: "blur(22px)",
+          borderRadius: "999px",
+          transition: "all 0.4s",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* The pill itself */}
+      <motion.nav
+        style={{
+          pointerEvents: "all",
+          display: "flex",
+          alignItems: "center",
+          width: "80%",
+          maxWidth: 1200,
+          height: 60,
+          paddingLeft: 28,
+          paddingRight: 16,
+          borderRadius: 999,
+          background: scrolled
+            ? "rgba(22, 24, 26, 0.82)"
+            : "rgba(22, 24, 26, 0.55)",
+          backdropFilter: "blur(24px) saturate(1.6)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.6)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: scrolled
+            ? "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)"
+            : "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05)",
+          transition: "background 0.3s, box-shadow 0.3s",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Subtle inner shine at top edge */}
         <div
           style={{
-            width: 24,
-            height: 24,
-            position: "relative",
+            position: "absolute",
+            top: 0,
+            left: "10%",
+            right: "10%",
+            height: 1,
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Logo */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
             flexShrink: 0,
           }}
         >
           <div
             style={{
-              position: "absolute",
-              inset: 0,
-              border: `1.5px solid ${C.sage}`,
-              borderRadius: 5,
-              transform: "rotate(-9deg)",
+              width: 22,
+              height: 22,
+              position: "relative",
+              flexShrink: 0,
             }}
-          />
-          <div
+          >
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                border: `1.5px solid ${C.sage}`,
+                borderRadius: 4,
+                transform: "rotate(-9deg)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                border: `1.5px solid ${C.sageMid}`,
+                borderRadius: 4,
+                transform: "rotate(9deg)",
+              }}
+            />
+          </div>
+          <span
             style={{
-              position: "absolute",
-              inset: 0,
-              border: `1.5px solid ${C.sageMid}`,
-              borderRadius: 5,
-              transform: "rotate(9deg)",
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 18,
+              fontWeight: 600,
+              color: C.white,
+              letterSpacing: 0.3,
+              whiteSpace: "nowrap",
             }}
-          />
+          >
+            DebateMe
+          </span>
         </div>
-        <span
+
+        {/* Nav links — absolutely centered in the pill */}
+        <div
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: 20,
-            fontWeight: 600,
-            color: C.white,
-            letterSpacing: 0.3,
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
           }}
         >
-          DebateMe
-        </span>
-      </div>
+          {NAV_ITEMS.map(({ label, href }) => (
+            <a
+              key={href}
+              href={href}
+              onClick={(e) => handleNav(e, href)}
+              style={{
+                color: C.textSec,
+                fontSize: 13,
+                fontWeight: 400,
+                textDecoration: "none",
+                transition: "color 0.2s, background 0.2s",
+                letterSpacing: 0.2,
+                padding: "6px 16px",
+                borderRadius: 999,
+                whiteSpace: "nowrap",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = C.white;
+                e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = C.textSec;
+                e.currentTarget.style.background = "transparent";
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
 
-      {/* Nav links */}
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 32,
-        }}
-      >
-        {NAV_ITEMS.map(({ label, href }) => (
-          <a
-            key={href}
-            href={href}
-            onClick={(e) => handleNav(e, href)}
+        {/* Buttons — pushed to the right */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            marginLeft: "auto",
+          }}
+        >
+          {/* Log In */}
+          <button
+            onClick={onStartSetup}
             style={{
+              padding: "8px 20px",
+              borderRadius: 999,
+              background: "transparent",
               color: C.textSec,
-              fontSize: 14,
+              fontSize: 13,
               fontWeight: 400,
-              textDecoration: "none",
-              transition: "color 0.2s",
-              letterSpacing: 0.2,
+              letterSpacing: 0.3,
+              border: "1px solid rgba(255,255,255,0.12)",
+              cursor: "pointer",
+              transition: "all 0.25s",
+              whiteSpace: "nowrap",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = C.white)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = C.textSec)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `linear-gradient(135deg, ${C.sage}, #60a5fa)`;
+              e.currentTarget.style.color = "#ffffff";
+              e.currentTarget.style.borderColor = "transparent";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = C.textSec;
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)";
+            }}
           >
-            {label}
-          </a>
-        ))}
-      </nav>
+            Log In
+          </button>
 
-      {/* CTA */}
-      <button
-        onClick={onStartSetup}
-        style={{
-          padding: "9px 22px",
-          borderRadius: 8,
-          background: `linear-gradient(135deg, ${C.sage}, #60a5fa)`,
-          color: C.white,
-          fontSize: 13,
-          fontWeight: 400,
-          letterSpacing: 0.4,
-          border: "none",
-          cursor: "pointer",
-          transition: "transform 0.2s, box-shadow 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "translateY(-1px)";
-          e.currentTarget.style.boxShadow = `0 4px 20px ${C.sageDim}`;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow = "none";
-        }}
-      >
-        Start Debating
-      </button>
-    </motion.header>
+          {/* Sign Up */}
+          <button
+            onClick={onStartSetup}
+            style={{
+              padding: "8px 20px",
+              borderRadius: 999,
+              background: C.sage,
+              color: C.bg,
+              fontSize: 13,
+              fontWeight: 400,
+              letterSpacing: 0.3,
+              border: "none",
+              cursor: "pointer",
+              transition: "all 0.25s",
+              whiteSpace: "nowrap",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `linear-gradient(135deg, ${C.sage}, #60a5fa)`;
+              e.currentTarget.style.color = "#ffffff";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = C.sage;
+              e.currentTarget.style.color = C.bg;
+            }}
+          >
+            Sign Up
+          </button>
+        </div>
+      </motion.nav>
+    </motion.div>
   );
 }
